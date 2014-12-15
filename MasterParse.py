@@ -21,6 +21,10 @@ except ImportError:
             total += value
             yield total
 
+###############################
+# Utility Functions
+###############################
+
 # Function to Create Parsing Specifications
 def make_parser(fieldwidths):
     cuts = tuple(cut for cut in accumulate(abs(fw) for fw in fieldwidths))
@@ -37,15 +41,13 @@ def make_parser(fieldwidths):
 def stripStr(string):
     return string.lstrip().rstrip()
 
-# Function to slice dict
-
-# Standalone Script Section
-if __name__ == "__main__":
-
-    # Open Document For Reading
-    fname = r'C:\Users\CJANCSAR\Documents\FNBUG\ALL.DAT'
+###############################
+# Main Logic Function
+###############################
+def parseMaster(filename):
+# Open Document For Reading
     try:
-        f = open(fname,'r+')
+        f = open(filename,'r+')
     except(OSError, IOError) as e:
         print('Fail: '+str(e))
         sys.exit(0)
@@ -317,12 +319,22 @@ if __name__ == "__main__":
         channelList.append(dMM)
         
 
-    # Debug
-    print(recorderList)
+    # Remove Duplicates from recorder and customer dictionaries
+    deduped_recorderList = list({dRM["RM_RECID"]: dRM for dRM in recorderList}.values())
+    deduped_customerList = list({dCM["CM_CUSTID"]: dCM for dCM in customerList}.values())
+
+    # Add recorders, customers, and channels to master return
+    masterList.append(deduped_recorderList)
+    masterList.append(deduped_customerList)
+    masterList.append(channelList)
     
     # Close the Master File
     f.close()
 
+    return(masterList)
 
-
-    
+# Standalone Script Section
+if __name__ == "__main__":
+    fname = r'C:\Users\CJANCSAR\Documents\FNBUG\ALL.DAT'
+    ret = parseMaster(fname)
+ 
