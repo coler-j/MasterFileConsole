@@ -5,6 +5,9 @@ ehthumbs.db
 # Folder config file
 Desktop.ini
 
+# Sqlalchemy
+sqlalchemy/
+
 # Recycle Bin used on file shares
 $RECYCLE.BIN/
 
