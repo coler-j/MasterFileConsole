@@ -1,6 +1,6 @@
 import os
 import sys
-from sqlalchemy import Column, ForeignKey, Integer, String, Float
+from sqlalchemy import Column, ForeignKey, Integer, String, Float, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 from sqlalchemy import create_engine
@@ -11,31 +11,31 @@ class Customer(Base):
     __tablename__ = 'MF_Customer'
 
     CM_CUSTID=Column(String(20), primary_key=True)
-    CM_A1AUTOPLD=Column(String(1), nullable=True)
+    CM_A1AUTOUPLD=Column(String(1), nullable=True)
     CM_A1CYCLE=Column(String(2), nullable=True)
     CM_A1ENDTIME=Column(Integer, nullable=True)
     CM_A1MFPEND=Column(String(1), nullable=True)
-    CM_A1UPLDATE=Column(Integer, nullable=True)
+    CM_A1UPLDATE=Column(DateTime, nullable=True)
     CM_A2AUTOUPLD=Column(String(1), nullable=True)
     CM_A2CYCLE=Column(String(2), nullable=True)
     CM_A2ENDTIME=Column(Integer, nullable=True)
     CM_A2MFPEND=Column(String(1), nullable=True)
-    CM_A2UPLDATE=Column(Integer, nullable=True)
+    CM_A2UPLDATE=Column(DateTime, nullable=True)
     CM_A3AUTOUPLD=Column(String(1), nullable=True)
     CM_A3CYCLE=Column(String(2), nullable=True)
     CM_A3ENDTIME=Column(Integer, nullable=True)
     CM_A3MFPEND=Column(String(1), nullable=True)
-    CM_A3UPLDATE=Column(Integer, nullable=True)
+    CM_A3UPLDATE=Column(DateTime, nullable=True)
     CM_A4AUTOUPLD=Column(String(1), nullable=True)
     CM_A4CYCLE=Column(String(2), nullable=True)
     CM_A4ENDTIME=Column(Integer, nullable=True)
     CM_A4MFPEND=Column(String(1), nullable=True)
-    CM_A4UPLDATE=Column(Integer, nullable=True)
-    CM_A5AUTOPLD=Column(String(1), nullable=True)
+    CM_A4UPLDATE=Column(DateTime, nullable=True)
+    CM_A5AUTOUPLD=Column(String(1), nullable=True)
     CM_A5CYCLE=Column(String(2), nullable=True)
     CM_A5ENDTIME=Column(Integer, nullable=True)
     CM_A5MFPEND=Column(String(1), nullable=True)
-    CM_A5UPLDATE=Column(Integer, nullable=True)
+    CM_A5UPLDATE=Column(DateTime, nullable=True)
     CM_ACCOUNT=Column(String(20), nullable=True)
     CM_ADDR1=Column(String(20), nullable=True)
     CM_ADDR2=Column(String(20), nullable=True)
@@ -43,7 +43,7 @@ class Customer(Base):
     CM_AUTOUPLD=Column(String(1), nullable=True)
     CM_BBSLIB=Column(String(8), nullable=True)
     CM_BILLKVAR=Column(String(1), nullable=True)
-    CM_CHDATE=Column(Integer, nullable=True)
+    CM_CHDATE=Column(DateTime, nullable=True)
     CM_CHTYPE=Column(String(1), nullable=True)
     CM_COMMENT=Column(String(40), nullable=True)
     CM_CONTACT=Column(String(20), nullable=True)
@@ -72,12 +72,12 @@ class Customer(Base):
     CM_RPCYCLE=Column(String(2), nullable=True)
     CM_RPENDTIME=Column(Integer, nullable=True)
     CM_RPTFILE=Column(String(12), nullable=True)
-    CM_RPTSTART=Column(Integer, nullable=True)
-    CM_RPTSTOP=Column(Integer, nullable=True)
+    CM_RPTSTART=Column(DateTime, nullable=True)
+    CM_RPTSTOP=Column(DateTime, nullable=True)
     CM_SIC=Column(String(8), nullable=True)
     CM_STRATA=Column(String(2), nullable=True)
     CM_TOUCODE=Column(String(2), nullable=True)
-    CM_UPLDATE=Column(Integer, nullable=True)
+    CM_UPLDATE=Column(DateTime, nullable=True)
 
     def __eq__(self, other):
         return self.CM_CUSTID==other.CM_CUSTID
@@ -93,7 +93,7 @@ class Channel(Base):
     MM_ABSDIFF=Column(Float(precision=5), nullable=True)
     MM_CFCODE=Column(Float(precision=1), nullable=True)
     MM_CFORM=Column(String(1), nullable=True)
-    MM_CHDATE=Column(Integer, nullable=True)
+    MM_CHDATE=Column(DateTime, nullable=True)
     MM_CHTYPE=Column(String(1), nullable=True)
     MM_CORRFACT=Column(Float(precision=7), nullable=True)
     MM_CUSTID=Column(String(20), nullable=True)
@@ -108,7 +108,7 @@ class Channel(Base):
     MM_KVARH=Column(String(1), nullable=True)
     MM_KVASET=Column(Integer, nullable=True)
     MM_LASTENC=Column(Float(precision=9), nullable=True)
-    MM_LASTKVR=Column(String(10), nullable=True)
+    MM_LASTKVR=Column(Float(precision=9), nullable=True)
     MM_LASTVIS=Column(Float(precision=9), nullable=True)
     MM_LFTOL=Column(Float(precision=2), nullable=True)
     MM_LOGCHAN=Column(Integer, nullable=True)
@@ -195,7 +195,7 @@ class Recorder(Base):
     RM_GROUP=Column(String(6), nullable=True)
     RM_HOMEPHONE1=Column(String(36), nullable=True)
     RM_HOMEPHONE2=Column(String(36), nullable=True)
-    RM_INITDATE=Column(Integer, nullable=True)
+    RM_INITDATE=Column(DateTime, nullable=True)
     RM_INPHR=Column(Integer, nullable=True)
     RM_INPUTDESC=Column(String(30), nullable=True)
     RM_INSCID=Column(String(8), nullable=True)

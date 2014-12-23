@@ -3,6 +3,7 @@ import sys
 from operator import itemgetter, attrgetter
 import os
 import itertools
+from datetime import datetime
 
 from sqlalchemy_declarative import Customer, Channel, Recorder, Base
 
@@ -41,6 +42,36 @@ def make_parser(fieldwidths):
 # Function to Prepare String for DB
 def stripStr(string):
     return string.lstrip().rstrip()
+
+# Function to Prepare Floats for DB
+def prepFloat(string):
+    try:
+        value = float(string)
+        return value
+    except ValueError:
+        return 0.0
+
+# Function to Prepare DateTime for DB
+def prepDatetime(string):
+    try:
+        # Roll Back 2400 to 2359 to meet format        
+        if (string[-4:] == '2400'):
+            string = string[:-4] + '2359'
+        return datetime.strptime(string, '%m%d%y%H%M')
+    except ValueError:
+        return None
+
+# Function to Prepare Time for DB
+def prepTime(string):
+    pass
+##    try:
+##        timeVal = time.strptime(string, %)
+##        print(string)
+##        return string
+##    except ValueError:
+##        print(string)
+##        return string   
+
 
 ###############################
 # Main Logic Function
@@ -94,31 +125,31 @@ def parseMaster(filename):
 
         # Create Objects to Contain MF Records
         dCM = Customer(
-            CM_A1AUTOPLD=stripStr(fields[186]), 
+            CM_A1AUTOUPLD=stripStr(fields[186]), 
             CM_A1CYCLE=stripStr(fields[187]), 
             CM_A1ENDTIME=stripStr(fields[184]), 
             CM_A1MFPEND=stripStr(fields[192]), 
-            CM_A1UPLDATE=stripStr(fields[185]), 
+            CM_A1UPLDATE=prepDatetime(fields[185]), 
             CM_A2AUTOUPLD=stripStr(fields[188]), 
             CM_A2CYCLE=stripStr(fields[189]), 
             CM_A2ENDTIME=stripStr(fields[190]), 
             CM_A2MFPEND=stripStr(fields[193]), 
-            CM_A2UPLDATE=stripStr(fields[191]), 
+            CM_A2UPLDATE=prepDatetime(fields[191]), 
             CM_A3AUTOUPLD=stripStr(fields[200]), 
             CM_A3CYCLE=stripStr(fields[201]), 
             CM_A3ENDTIME=stripStr(fields[202]), 
             CM_A3MFPEND=stripStr(fields[204]), 
-            CM_A3UPLDATE=stripStr(fields[203]), 
+            CM_A3UPLDATE=prepDatetime(fields[203]), 
             CM_A4AUTOUPLD=stripStr(fields[205]), 
             CM_A4CYCLE=stripStr(fields[206]), 
             CM_A4ENDTIME=stripStr(fields[207]), 
             CM_A4MFPEND=stripStr(fields[209]), 
-            CM_A4UPLDATE=stripStr(fields[208]), 
-            CM_A5AUTOPLD=stripStr(fields[210]), 
+            CM_A4UPLDATE=prepDatetime(fields[208]), 
+            CM_A5AUTOUPLD=stripStr(fields[210]), 
             CM_A5CYCLE=stripStr(fields[211]), 
             CM_A5ENDTIME=stripStr(fields[212]), 
             CM_A5MFPEND=stripStr(fields[214]), 
-            CM_A5UPLDATE=stripStr(fields[213]), 
+            CM_A5UPLDATE=prepDatetime(fields[213]), 
             CM_ACCOUNT=stripStr(fields[8]), 
             CM_ADDR1=stripStr(fields[2]), 
             CM_ADDR2=stripStr(fields[3]), 
@@ -126,15 +157,15 @@ def parseMaster(filename):
             CM_AUTOUPLD=stripStr(fields[17]), 
             CM_BBSLIB=stripStr(fields[180]), 
             CM_BILLKVAR=stripStr(fields[34]), 
-            CM_CHDATE=stripStr(fields[20]), 
+            CM_CHDATE=prepDatetime(fields[20]), 
             CM_CHTYPE=stripStr(fields[21]), 
             CM_COMMENT=stripStr(fields[22]), 
             CM_CONTACT=stripStr(fields[4]), 
             CM_CRITPROG=stripStr(fields[38]), 
             CM_CUSTID=stripStr(fields[0]), 
             CM_CYCLE=stripStr(fields[9]), 
-            CM_DL1=stripStr(fields[29]), 
-            CM_DL2=stripStr(fields[30]), 
+            CM_DL1=prepFloat(fields[29]), 
+            CM_DL2=prepFloat(fields[30]), 
             CM_ENDTIME=stripStr(fields[25]), 
             CM_FSLGLD=stripStr(fields[36]), 
             CM_GROUP=stripStr(fields[16]), 
@@ -147,33 +178,33 @@ def parseMaster(filename):
             CM_NAME=stripStr(fields[1]), 
             CM_OPTDATA=stripStr(fields[37]), 
             CM_PBS=stripStr(fields[181]), 
-            CM_PF1=stripStr(fields[31]), 
-            CM_PF2=stripStr(fields[32]), 
-            CM_PFDL=stripStr(fields[33]), 
+            CM_PF1=prepFloat(fields[31]), 
+            CM_PF2=prepFloat(fields[32]), 
+            CM_PFDL=prepFloat(fields[33]), 
             CM_PHONE=stripStr(fields[5]), 
             CM_PRCUSTID=stripStr(fields[23]), 
             CM_RATE=stripStr(fields[18]), 
             CM_RPCYCLE=stripStr(fields[182]), 
             CM_RPENDTIME=stripStr(fields[183]), 
             CM_RPTFILE=stripStr(fields[28]), 
-            CM_RPTSTART=stripStr(fields[26]), 
-            CM_RPTSTOP=stripStr(fields[27]), 
+            CM_RPTSTART=prepDatetime(fields[26]), 
+            CM_RPTSTOP=prepDatetime(fields[27]), 
             CM_SIC=stripStr(fields[7]), 
             CM_STRATA=stripStr(fields[11]), 
             CM_TOUCODE=stripStr(fields[6]), 
-            CM_UPLDATE=stripStr(fields[12])
+            CM_UPLDATE=prepDatetime(fields[12])
         )
 
         dMM = Channel(
             MM_ABSDIFF=stripStr(fields[167]), 
-            MM_CFCODE=stripStr(fields[133]), 
-            MM_CFORM=stripStr(fields[121]), 
-            MM_CHDATE=stripStr(fields[154]), 
+            MM_CFCODE=prepFloat(fields[133]), 
+            MM_CFORM=prepFloat(fields[121]), 
+            MM_CHDATE=prepDatetime(fields[154]), 
             MM_CHTYPE=stripStr(fields[155]), 
-            MM_CORRFACT=stripStr(fields[165]), 
+            MM_CORRFACT=prepFloat(fields[165]), 
             MM_CUSTID=stripStr(fields[110]), 
             MM_DECPOS=stripStr(fields[139]), 
-            MM_ENCBASE=stripStr(fields[118]), 
+            MM_ENCBASE=prepFloat(fields[118]), 
             MM_ENCTYPE=stripStr(fields[116]), 
             MM_Extra1=stripStr(fields[194]), 
             MM_Extra2=stripStr(fields[195]), 
@@ -182,53 +213,53 @@ def parseMaster(filename):
             MM_GROUP=stripStr(fields[108]), 
             MM_KVARH=stripStr(fields[137]), 
             MM_KVASET=stripStr(fields[144]), 
-            MM_LASTENC=stripStr(fields[122]), 
-            MM_LASTKVR=stripStr(fields[134]), 
-            MM_LASTVIS=stripStr(fields[123]), 
-            MM_LFTOL=stripStr(fields[135]), 
+            MM_LASTENC=prepFloat(fields[122]), 
+            MM_LASTKVR=prepFloat(fields[134]), 
+            MM_LASTVIS=prepFloat(fields[123]), 
+            MM_LFTOL=prepFloat(fields[135]), 
             MM_LOGCHAN=stripStr(fields[113]), 
             MM_LOSSOPT=stripStr(fields[145]), 
             MM_MAPCHAN=stripStr(fields[159]), 
-            MM_MAXINT=stripStr(fields[128]), 
-            MM_MAXTOT=stripStr(fields[130]), 
+            MM_MAXINT=prepFloat(fields[128]), 
+            MM_MAXTOT=prepFloat(fields[130]), 
             MM_METERID=stripStr(fields[109]), 
             MM_METINSTD=stripStr(fields[158]), 
             MM_METSEQ=stripStr(fields[160]), 
-            MM_MININT=stripStr(fields[129]), 
-            MM_MINTOT=stripStr(fields[131]), 
-            MM_MMULT=stripStr(fields[124]), 
+            MM_MININT=prepFloat(fields[129]), 
+            MM_MINTOT=prepFloat(fields[131]), 
+            MM_MMULT=prepFloat(fields[124]), 
             MM_MREADS=stripStr(fields[120]), 
             MM_NDIALS=stripStr(fields[119]), 
             MM_NRKDIALS=stripStr(fields[163]), 
             MM_NRKVARH=stripStr(fields[117]), 
-            MM_NRKVMULT=stripStr(fields[162]), 
+            MM_NRKVMULT=prepFloat(fields[162]), 
             MM_NRKVSN=stripStr(fields[161]), 
             MM_OMITUPLD=stripStr(fields[143]), 
             MM_OPTDATA=stripStr(fields[156]), 
-            MM_PCTCHG=stripStr(fields[132]), 
-            MM_PFTOL=stripStr(fields[136]), 
+            MM_PCTCHG=prepFloat(fields[132]), 
+            MM_PFTOL=prepFloat(fields[136]), 
             MM_PHASE=stripStr(fields[152]), 
-            MM_PMULT=stripStr(fields[125]), 
-            MM_POFFS=stripStr(fields[126]), 
-            MM_PTRATIO=stripStr(fields[141]), 
+            MM_PMULT=prepFloat(fields[125]), 
+            MM_POFFS=prepFloat(fields[126]), 
+            MM_PTRATIO=prepFloat(fields[141]), 
             MM_PYSCHAN=stripStr(fields[112]), 
             MM_RDCHAN=stripStr(fields[140]), 
-            MM_RDTOL=stripStr(fields[151]), 
+            MM_RDTOL=prepFloat(fields[151]), 
             MM_RECID=stripStr(fields[107]), 
             MM_REGTYPE=stripStr(fields[115]), 
             MM_SERVTYPE=stripStr(fields[142]), 
-            MM_TOLPCT=stripStr(fields[127]), 
+            MM_TOLPCT=prepFloat(fields[127]), 
             MM_TOLTYPE=stripStr(fields[138]), 
-            MM_TOTPULSE=stripStr(fields[157]), 
+            MM_TOTPULSE=prepFloat(fields[157]), 
             MM_UMCODE=stripStr(fields[114]), 
             MM_UOMSCALE=stripStr(fields[105]), 
-            MM_VCLC=stripStr(fields[149]), 
-            MM_VILC=stripStr(fields[148]), 
-            MM_VOLTS=stripStr(fields[150]), 
-            MM_WCLC=stripStr(fields[147]), 
-            MM_WILC=stripStr(fields[146]), 
+            MM_VCLC=prepFloat(fields[149]), 
+            MM_VILC=prepFloat(fields[148]), 
+            MM_VOLTS=prepFloat(fields[150]), 
+            MM_WCLC=prepFloat(fields[147]), 
+            MM_WILC=prepFloat(fields[146]), 
             MM_XFACCT=stripStr(fields[111]), 
-            MM_ZEROINT=stripStr(fields[164])
+            MM_ZEROINT=prepFloat(fields[164])
         )
 
         dRM = Recorder(
@@ -267,7 +298,7 @@ def parseMaster(filename):
             RM_GROUP=stripStr(fields[40]), 
             RM_HOMEPHONE1=stripStr(fields[197]), 
             RM_HOMEPHONE2=stripStr(fields[198]), 
-            RM_INITDATE=stripStr(fields[67]), 
+            RM_INITDATE=prepDatetime(fields[67]), 
             RM_INPHR=stripStr(fields[42]), 
             RM_INPUTDESC=stripStr(fields[94]), 
             RM_INSCID=stripStr(fields[173]), 
@@ -337,6 +368,6 @@ if __name__ == "__main__":
     fname = r'C:\Users\CJANCSAR\Documents\FNBUG\ALL.DAT'
     ret = parseMaster(fname)
 
-    for mem in ret[1]:
-        print(mem.CM_CUSTID)
+   # for mem in ret[1]:
+    #    print(mem.CM_CUSTID)
  
