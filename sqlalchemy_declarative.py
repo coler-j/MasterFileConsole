@@ -249,6 +249,8 @@ class Recorder(Base):
     def __hash__(self):
         return hash(('RM_RECID', self.RM_RECID,))
 
+
+
 # Create an engine that stores data in the local directory's
 engine = create_engine(r'sqlite:///C:\\Users\\CJANCSAR\\Documents\\FNBUG\\Data\\MV90Extension.db')
 
