@@ -303,7 +303,7 @@ def parseMaster(filename):
             RM_INPUTDESC=stripStr(fields[94]), 
             RM_INSCID=stripStr(fields[173]), 
             RM_IP_PORT=stripStr(fields[179]), 
-            RM_LASTTIME=stripStr(fields[71]), 
+            RM_LASTTIME=prepDatetime(fields[71]), 
             RM_LMTCALL=stripStr(fields[54]), 
             RM_LOCALPW=stripStr(fields[68]), 
             RM_LOCAT=stripStr(fields[41]), 

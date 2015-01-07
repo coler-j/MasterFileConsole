@@ -200,7 +200,7 @@ class Recorder(Base):
     RM_INPUTDESC=Column(String(30), nullable=True)
     RM_INSCID=Column(String(8), nullable=True)
     RM_IP_PORT=Column(String(6), nullable=True)
-    RM_LASTTIME=Column(Integer, nullable=True)
+    RM_LASTTIME=Column(DateTime, nullable=True)
     RM_LMTCALL=Column(Integer, nullable=True)
     RM_LOCALPW=Column(String(20), nullable=True)
     RM_LOCAT=Column(String(20), nullable=True)
